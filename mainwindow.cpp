@@ -18,6 +18,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->clearButton, &QPushButton::clicked, this, &MainWindow::Clear);
     connect(ui->startButton, &QPushButton::clicked, this, &MainWindow::Start);
     connect(ui->setButton, &QPushButton::clicked, this, &MainWindow::Set);
+    connect(ui->set15Button, &QPushButton::clicked, this, &MainWindow::Set15);
+    connect(ui->set30Button, &QPushButton::clicked, this, &MainWindow::Set30);
+    connect(ui->set35Button, &QPushButton::clicked, this, &MainWindow::Set35);
 
     ui->lcdNumber->display(this->formattedTime());
 }
@@ -38,6 +41,24 @@ void MainWindow::Set()
 {
     auto timeToBeSet = ui->timeEdit->time();
     count = timeToBeSet.minute() * 60 + timeToBeSet.second();
+    ui->lcdNumber->display(this->formattedTime());
+}
+
+void MainWindow::Set15()
+{
+    count = 900; //900 seconds = 15 minutes
+    ui->lcdNumber->display(this->formattedTime());
+}
+
+void MainWindow::Set30()
+{
+    count = 1800; //1800 seconds = 30 minutes
+    ui->lcdNumber->display(this->formattedTime());
+}
+
+void MainWindow::Set35()
+{
+    count = 2100; //2100 seconds = 35 minutes
     ui->lcdNumber->display(this->formattedTime());
 }
 
@@ -72,16 +93,20 @@ std::string MainWindow::formattedTimeAsNormalString()
     return stringStream.str();
 }
 
+void MainWindow::writeToFile(std::string file, std::string content)
+{
+    std::ofstream outputFile(file);
+    outputFile << content;
+    outputFile.close();
+}
+
 void MainWindow::timerEvent(QTimerEvent *event)
 {
     count--;
     std::string formattedTime = this->formattedTimeAsNormalString();
 
     if (count >= 0) ui->lcdNumber->display(QString::fromStdString(formattedTime));
-
-    std::ofstream outputFile("/home/bjoern/test.txt");
-    outputFile << formattedTime;
-    outputFile.close();
+    this->writeToFile("/home/bjoern/test.txt", formattedTime);
 
     event->accept();
 }

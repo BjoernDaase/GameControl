@@ -171,21 +171,21 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_7">
       <item>
-       <widget class="QPushButton" name="pushButton_3">
+       <widget class="QPushButton" name="set35Button">
         <property name="text">
          <string>Set 35:00</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_2">
+       <widget class="QPushButton" name="set30Button">
         <property name="text">
          <string>Set 30:00</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="set15Button">
         <property name="text">
          <string>Set 15:00</string>
         </property>

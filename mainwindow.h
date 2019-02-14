@@ -18,6 +18,9 @@ public:
     void Clear();
     void Start();
     void Set();
+    void Set15();
+    void Set30();
+    void Set35();
 
 protected:
     void timerEvent(QTimerEvent *event) override;
@@ -29,6 +32,7 @@ private:
     int count;
     QString formattedTime();
     std::string formattedTimeAsNormalString();
+    void writeToFile(std::string file, std::string content);
 };
 
 #endif // MAINWINDOW_H
