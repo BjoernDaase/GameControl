@@ -15,7 +15,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     statusBar()->showMessage(tr("Created timer %1").arg(timer->timerId()), 1000);
 
-    connect(ui->quitButton, &QPushButton::clicked, qApp, &QApplication::quit);
     connect(ui->clearButton, &QPushButton::clicked, this, &MainWindow::Clear);
     connect(ui->startButton, &QPushButton::clicked, this, &MainWindow::Start);
     connect(ui->setButton, &QPushButton::clicked, this, &MainWindow::Set);
