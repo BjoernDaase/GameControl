@@ -46,6 +46,7 @@ private:
     std::string formattedTimeAsNormalString();
     void writeToFile(std::string file, std::string content);
     void writeTimeToFile();
+    std::string getCurrentWorkingDir();
 };
 
 #endif // MAINWINDOW_H

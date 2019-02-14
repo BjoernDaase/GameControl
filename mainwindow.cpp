@@ -4,6 +4,17 @@
 #include <sstream>
 #include <fstream>
 #include <iostream>
+#include <stdio.h>
+
+#ifdef __linux__
+    #include <unistd.h>
+    #define GetCurrentDir getcwd
+    #define PATH_SEPARATOR "/"
+#else //We are on Windows, THIS BRANCH IS NOT TESTED
+    #include <direct.h>
+    #define GetCurrentDir _getcwd
+    #define PATH_SEPARATOR "\\"
+#endif
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -31,6 +42,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->set35Button, &QPushButton::clicked, this, &MainWindow::Set35);
     connect(ui->clearButton, &QPushButton::clicked, this, &MainWindow::Clear);
 
+    QPixmap image(QString::fromStdString(this->getCurrentWorkingDir() + PATH_SEPARATOR + "2777.png"));
+    ui->logoLabel->setPixmap(image);
+
     ui->lcdNumber->display(this->formattedTime());
     this->WriteHomeTeamToFile();
     this->WriteGuestTeamToFile();
@@ -47,7 +61,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::Clear()
 {
-    count = 0;
+    count = countStart;
     ui->lcdNumber->display(this->formattedTime());
 
     ui->homeNameEdit->setText("");
@@ -131,27 +145,34 @@ void MainWindow::DecreaseGuestGoals()
 
 void MainWindow::WriteHomeTeamToFile()
 {
-    this->writeToFile("/home/bjoern/home.txt", ui->homeNameEdit->text().toStdString());
+    this->writeToFile(this->getCurrentWorkingDir() + PATH_SEPARATOR + "home.txt", ui->homeNameEdit->text().toStdString());
 }
 
 void MainWindow::WriteGuestTeamToFile()
 {
-    this->writeToFile("/home/bjoern/guest.txt", ui->guestNameEdit->text().toStdString());
+    this->writeToFile(this->getCurrentWorkingDir() + PATH_SEPARATOR + "guest.txt", ui->guestNameEdit->text().toStdString());
 }
 
 void MainWindow::WriteLegToFile()
 {
-    this->writeToFile("/home/bjoern/leg.txt", ui->legComboBox->currentText().toStdString());
+    this->writeToFile(this->getCurrentWorkingDir() + PATH_SEPARATOR + "leg.txt", ui->legComboBox->currentText().toStdString());
 }
 
 void MainWindow::WriteHomeTeamGoalsToFile()
 {
-    this->writeToFile("/home/bjoern/homeGoals.txt", ui->homeGoalsSpinBox->text().toStdString());
+    this->writeToFile(this->getCurrentWorkingDir() + PATH_SEPARATOR + "homeGoals.txt", ui->homeGoalsSpinBox->text().toStdString());
 }
 
 void MainWindow::WriteGuestTeamGoalsToFile()
 {
-    this->writeToFile("/home/bjoern/guestGoals.txt", ui->guestGoalsSpinBox->text().toStdString());
+    this->writeToFile(this->getCurrentWorkingDir() + PATH_SEPARATOR + "guestGoals.txt", ui->guestGoalsSpinBox->text().toStdString());
+}
+
+void MainWindow::writeTimeToFile()
+{
+    std::string formattedTime = this->formattedTimeAsNormalString();
+    if (count >= 0) ui->lcdNumber->display(QString::fromStdString(formattedTime));
+    this->writeToFile(this->getCurrentWorkingDir() + PATH_SEPARATOR + "timer.txt", formattedTime);
 }
 
 QString MainWindow::formattedTime()
@@ -180,11 +201,12 @@ void MainWindow::writeToFile(std::string file, std::string content)
     outputFile.close();
 }
 
-void MainWindow::writeTimeToFile()
+std::string MainWindow::getCurrentWorkingDir()
 {
-    std::string formattedTime = this->formattedTimeAsNormalString();
-    if (count >= 0) ui->lcdNumber->display(QString::fromStdString(formattedTime));
-    this->writeToFile("/home/bjoern/timer.txt", formattedTime);
+  char buff[FILENAME_MAX];
+  GetCurrentDir( buff, FILENAME_MAX );
+  std::string current_working_dir(buff);
+  return current_working_dir;
 }
 
 void MainWindow::timerEvent(QTimerEvent *event)
