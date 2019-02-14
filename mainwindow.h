@@ -21,6 +21,11 @@ public:
     void Set15();
     void Set30();
     void Set35();
+    void WriteHomeTeamToFile();
+    void WriteGuestTeamToFile();
+    void WriteHomeTeamGoalsToFile();
+    void WriteGuestTeamGoalsToFile();
+
 
 protected:
     void timerEvent(QTimerEvent *event) override;
@@ -28,11 +33,12 @@ protected:
 private:
     Ui::MainWindow *ui;
     QBasicTimer *timer;
-    int countStart = 900; //Default gameTime in Seconds
+    int countStart = 0; //Default gameTime in Seconds
     int count;
     QString formattedTime();
     std::string formattedTimeAsNormalString();
     void writeToFile(std::string file, std::string content);
+    void writeTimeToFile();
 };
 
 #endif // MAINWINDOW_H
