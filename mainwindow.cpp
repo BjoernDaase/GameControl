@@ -15,16 +15,21 @@ MainWindow::MainWindow(QWidget *parent) :
 
     statusBar()->showMessage(tr("Created timer %1").arg(timer->timerId()), 1000);
 
-    connect(ui->clearButton, &QPushButton::clicked, this, &MainWindow::Clear);
+    connect(ui->homeNameEdit, SIGNAL(textChanged(const QString&)), this, SLOT(WriteHomeTeamToFile()));
+    connect(ui->guestNameEdit, SIGNAL(textChanged(const QString&)), this, SLOT(WriteGuestTeamToFile()));
+    connect(ui->legComboBox, SIGNAL(currentIndexChanged(const QString&)), this, SLOT(WriteLegToFile()));
+    connect(ui->homeGoalsSpinBox, SIGNAL(editingFinished()), this, SLOT(WriteHomeTeamGoalsToFile()));
+    connect(ui->guestGoalsSpinBox, SIGNAL(editingFinished()), this, SLOT(WriteGuestTeamGoalsToFile()));
+    connect(ui->homeIncreaseGoalsButton, SIGNAL(clicked(bool)), this, SLOT(IncreaseHomeGoals()));
+    connect(ui->homeDecreaseGoalsButton, SIGNAL(clicked(bool)), this, SLOT(DecreaseHomeGoals()));
+    connect(ui->guestIncreaseGoalsButton, SIGNAL(clicked(bool)), this, SLOT(IncreaseGuestGoals()));
+    connect(ui->guestDecreaseGoalsButton, SIGNAL(clicked(bool)), this, SLOT(DecreaseGuestGoals()));
     connect(ui->startButton, &QPushButton::clicked, this, &MainWindow::Start);
     connect(ui->setButton, &QPushButton::clicked, this, &MainWindow::Set);
     connect(ui->set15Button, &QPushButton::clicked, this, &MainWindow::Set15);
     connect(ui->set30Button, &QPushButton::clicked, this, &MainWindow::Set30);
     connect(ui->set35Button, &QPushButton::clicked, this, &MainWindow::Set35);
-    connect(ui->homeNameEdit, &QLineEdit::textChanged, this, &MainWindow::WriteHomeTeamToFile);
-    connect(ui->guestNameEdit, &QLineEdit::textChanged, this, &MainWindow::WriteGuestTeamToFile);
-    connect(ui->homeGoalsSpinBox, &QSpinBox::editingFinished, this, &MainWindow::WriteHomeTeamGoalsToFile);
-    connect(ui->guestGoalsSpinBox, &QSpinBox::editingFinished, this, &MainWindow::WriteGuestTeamGoalsToFile);
+    connect(ui->clearButton, &QPushButton::clicked, this, &MainWindow::Clear);
 
     ui->lcdNumber->display(this->formattedTime());
     this->WriteHomeTeamToFile();
@@ -98,6 +103,31 @@ void MainWindow::Start()
         ui->startButton->setText(tr("Stop"));
     }
 }
+void MainWindow::IncreaseHomeGoals()
+{
+   ui->homeGoalsSpinBox->setValue(ui->homeGoalsSpinBox->value() + 1);
+   this->WriteHomeTeamGoalsToFile();
+}
+
+
+void MainWindow::DecreaseHomeGoals()
+{
+    ui->homeGoalsSpinBox->setValue(ui->homeGoalsSpinBox->value() - 1);
+    this->WriteHomeTeamGoalsToFile();
+}
+
+
+void MainWindow::IncreaseGuestGoals()
+{
+    ui->guestGoalsSpinBox->setValue(ui->guestGoalsSpinBox->value() + 1);
+    this->WriteGuestTeamGoalsToFile();
+}
+
+void MainWindow::DecreaseGuestGoals()
+{
+    ui->guestGoalsSpinBox->setValue(ui->guestGoalsSpinBox->value() - 1);
+    this->WriteGuestTeamGoalsToFile();
+}
 
 void MainWindow::WriteHomeTeamToFile()
 {
@@ -107,6 +137,11 @@ void MainWindow::WriteHomeTeamToFile()
 void MainWindow::WriteGuestTeamToFile()
 {
     this->writeToFile("/home/bjoern/guest.txt", ui->guestNameEdit->text().toStdString());
+}
+
+void MainWindow::WriteLegToFile()
+{
+    this->writeToFile("/home/bjoern/leg.txt", ui->legComboBox->currentText().toStdString());
 }
 
 void MainWindow::WriteHomeTeamGoalsToFile()

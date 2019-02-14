@@ -172,7 +172,7 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <widget class="QPushButton" name="pushButton">
+         <widget class="QPushButton" name="homeIncreaseGoalsButton">
           <property name="font">
            <font>
             <pointsize>24</pointsize>
@@ -186,7 +186,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_2">
+         <widget class="QPushButton" name="homeDecreaseGoalsButton">
           <property name="font">
            <font>
             <weight>75</weight>
@@ -221,7 +221,7 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
-         <widget class="QPushButton" name="pushButton_3">
+         <widget class="QPushButton" name="guestIncreaseGoalsButton">
           <property name="font">
            <font>
             <pointsize>24</pointsize>
@@ -235,7 +235,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_4">
+         <widget class="QPushButton" name="guestDecreaseGoalsButton">
           <property name="font">
            <font>
             <weight>75</weight>

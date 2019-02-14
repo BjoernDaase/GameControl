@@ -21,10 +21,17 @@ public:
     void Set15();
     void Set30();
     void Set35();
+
+public slots:
     void WriteHomeTeamToFile();
     void WriteGuestTeamToFile();
     void WriteHomeTeamGoalsToFile();
     void WriteGuestTeamGoalsToFile();
+    void WriteLegToFile();
+    void IncreaseHomeGoals();
+    void DecreaseHomeGoals();
+    void IncreaseGuestGoals();
+    void DecreaseGuestGoals();
 
 
 protected:
