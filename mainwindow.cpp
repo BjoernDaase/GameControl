@@ -76,10 +76,12 @@ std::string MainWindow::formattedTimeAsNormalString()
 void MainWindow::timerEvent(QTimerEvent *event)
 {
     count--;
-    if (count >= 0) ui->lcdNumber->display(this->formattedTime());
+    std::string formattedTime = this->formattedTimeAsNormalString();
+
+    if (count >= 0) ui->lcdNumber->display(QString::fromStdString(formattedTime));
 
     std::ofstream outputFile("/home/bjoern/test.txt");
-    outputFile << this->formattedTimeAsNormalString();
+    outputFile << formattedTime;
     outputFile.close();
 
     event->accept();
