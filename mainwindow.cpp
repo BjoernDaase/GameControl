@@ -10,11 +10,12 @@
     #include <unistd.h>
     #define GetCurrentDir getcwd
     #define PATH_SEPARATOR "/"
-#else //We are on Windows, THIS BRANCH IS NOT TESTED
+#elif defined _WIN32 //We are on Windows, THIS BRANCH IS NOT TESTED
     #include <direct.h>
     #define GetCurrentDir _getcwd
     #define PATH_SEPARATOR "\\"
 #endif
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -42,7 +43,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->set35Button, &QPushButton::clicked, this, &MainWindow::Set35);
     connect(ui->clearButton, &QPushButton::clicked, this, &MainWindow::Clear);
 
-    QPixmap image(QString::fromStdString(this->getCurrentWorkingDir() + PATH_SEPARATOR + "2777.png"));
+    QPixmap image(QString::fromStdString(this->getCurrentWorkingDir() + PATH_SEPARATOR + "tusliLogo.png"));
     ui->logoLabel->setPixmap(image);
 
     ui->lcdNumber->display(this->formattedTime());
