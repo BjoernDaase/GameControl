@@ -23,6 +23,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    setWindowIcon(QIcon(":/tusliLogo_quadratisch.png"));
+
     timer = new QBasicTimer();
 
     statusBar()->showMessage(tr("Created timer %1").arg(timer->timerId()), 1000);
@@ -49,6 +51,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->lcdNumber->display(this->formattedTime());
     this->WriteHomeTeamToFile();
     this->WriteGuestTeamToFile();
+    this->WriteLegToFile();
     this->WriteHomeTeamGoalsToFile();
     this->WriteGuestTeamGoalsToFile();
     this->writeTimeToFile();
@@ -73,6 +76,7 @@ void MainWindow::Clear()
 
     this->WriteHomeTeamToFile();
     this->WriteGuestTeamToFile();
+    this->WriteLegToFile();
     this->WriteHomeTeamGoalsToFile();
     this->WriteGuestTeamGoalsToFile();
     this->writeTimeToFile();
@@ -205,7 +209,7 @@ void MainWindow::writeToFile(std::string file, std::string content)
 std::string MainWindow::getCurrentWorkingDir()
 {
   char buff[FILENAME_MAX];
-  GetCurrentDir( buff, FILENAME_MAX );
+  GetCurrentDir(buff, FILENAME_MAX);
   std::string current_working_dir(buff);
   return current_working_dir;
 }
