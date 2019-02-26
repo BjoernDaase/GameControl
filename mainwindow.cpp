@@ -20,13 +20,12 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow), count(countStart)
-{
-    ui->setupUi(this);
-
+{  
     setWindowIcon(QIcon(":/tusliLogo_quadratisch.png"));
 
-    timer = new QBasicTimer();
+    ui->setupUi(this);
 
+    timer = new QBasicTimer();
     statusBar()->showMessage(tr("Created timer %1").arg(timer->timerId()), 1000);
 
     connect(ui->homeNameEdit, SIGNAL(textChanged(const QString&)), this, SLOT(WriteHomeTeamToFile()));
@@ -40,6 +39,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->guestDecreaseGoalsButton, SIGNAL(clicked(bool)), this, SLOT(DecreaseGuestGoals()));
     connect(ui->startButton, &QPushButton::clicked, this, &MainWindow::Start);
     connect(ui->setButton, &QPushButton::clicked, this, &MainWindow::Set);
+    connect(ui->set5Button, &QPushButton::clicked, this, &MainWindow::Set5);
+    connect(ui->set10Button, &QPushButton::clicked, this, &MainWindow::Set10);
     connect(ui->set15Button, &QPushButton::clicked, this, &MainWindow::Set15);
     connect(ui->set30Button, &QPushButton::clicked, this, &MainWindow::Set30);
     connect(ui->set35Button, &QPushButton::clicked, this, &MainWindow::Set35);
@@ -48,13 +49,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QPixmap image(QString::fromStdString(this->getCurrentWorkingDir() + PATH_SEPARATOR + "tusliLogo.png"));
     ui->logoLabel->setPixmap(image);
 
-    ui->lcdNumber->display(this->formattedTime());
-    this->WriteHomeTeamToFile();
-    this->WriteGuestTeamToFile();
-    this->WriteLegToFile();
-    this->WriteHomeTeamGoalsToFile();
-    this->WriteGuestTeamGoalsToFile();
-    this->writeTimeToFile();
+    this->Clear();
 }
 
 MainWindow::~MainWindow()
@@ -86,6 +81,20 @@ void MainWindow::Set()
 {
     auto timeToBeSet = ui->timeEdit->time();
     count = timeToBeSet.minute() * 60 + timeToBeSet.second();
+    ui->lcdNumber->display(this->formattedTime());
+    this->writeTimeToFile();
+}
+
+void MainWindow::Set5()
+{
+    count = 300; //300 seconds = 5 minutes
+    ui->lcdNumber->display(this->formattedTime());
+    this->writeTimeToFile();
+}
+
+void MainWindow::Set10()
+{
+    count = 600; //600 seconds = 10 minutes
     ui->lcdNumber->display(this->formattedTime());
     this->writeTimeToFile();
 }

@@ -446,6 +446,42 @@
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QPushButton" name="set10Button">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>18</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Set 10:00 (HZ)</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="set5Button">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>18</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Set 5:00 (HZ)</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
     <item>

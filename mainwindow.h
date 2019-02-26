@@ -18,6 +18,8 @@ public:
     void Clear();
     void Start();
     void Set();
+    void Set5();
+    void Set10();
     void Set15();
     void Set30();
     void Set35();
